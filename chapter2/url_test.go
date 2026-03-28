@@ -39,3 +39,35 @@ func TestParseWithoutPath(t *testing.T) {
 		t.Errorf("Parse (%q) mismatch (-want +got): \n%s", uri, diff)
 	}
 }
+
+var parseTests = []struct {
+	name string
+	uri  string
+	want *URL
+}{
+	{
+		name: "full",
+		uri:  "https://github.com/sshubhamk1",
+		want: &URL{Scheme: "https", Host: "github.com", Path: "sshubhamk1"},
+	},
+	{
+		name: "without_path",
+		uri:  "https://github.com",
+		want: &URL{Scheme: "https", Host: "github.com", Path: ""},
+	},
+}
+
+func TestParseTable(t *testing.T) {
+	for _, tt := range parseTests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := Parse(tt.uri)
+			if err != nil {
+				t.Fatalf("Parse (%q) err = %v, want <nil>", tt.uri, err)
+			}
+			if diff := cmp.Diff(tt.want, got); diff != "" {
+				t.Errorf("Parse (%q) mismatch (-want +got): \n%s", tt.uri, diff)
+			}
+		})
+
+	}
+}
