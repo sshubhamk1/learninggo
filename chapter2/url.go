@@ -1,6 +1,10 @@
 package url
 
-import "fmt"
+import (
+	"errors"
+	"fmt"
+	"strings"
+)
 
 type URL struct {
 	Scheme string
@@ -9,10 +13,15 @@ type URL struct {
 }
 
 func Parse(rawUrl string) (*URL, error) {
+	schema, rest, ok := strings.Cut(rawUrl, "://")
+	if !ok {
+		return nil, errors.New("missing Scheme")
+	}
+	host, path, _ := strings.Cut(rest, "/")
 	return &URL{
-		Scheme: "https",
-		Host:   "github.com",
-		Path:   "sshubhamk1",
+		Scheme: schema,
+		Host:   host,
+		Path:   path,
 	}, nil
 }
 

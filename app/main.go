@@ -3,10 +3,11 @@ package main
 import (
 	"fmt"
 
-	"github.com/sshubhamk1/learninggo/chapter2/url"
+	churl "github.com/sshubhamk1/learninggo/chapter2"
 )
 
 func main() {
 	fmt.Println("Starting lessions from here")
-	url = url.URL
+	url, _ := churl.Parse("https://github.com/sshubhamk1/")
+	fmt.Println(url)
 }
